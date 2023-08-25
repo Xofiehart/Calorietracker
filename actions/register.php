@@ -8,12 +8,20 @@
         $mobile = $_POST['mobile'];
         $pass = $_POST['password'];
         $repass = $_POST['repassword'];
+        $role = "";
 
         $hash = md5($pass);
         if (empty($fname) || empty($lname) || empty($email) || empty($mobile) || empty($pass) || empty($repass)) {
             echo "Fields most not be empty";
             return false;
         } else {
+            if ($pass !== $repass) {
+
+                $response = json_encode(array("message" => "Password does not match", "status" => 404));
+                echo $response;
+                return false;
+                
+            }
             // create a SQL query as a string
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
@@ -31,9 +39,11 @@
                     $response = json_encode(array("message" => "successfully registered", "status" => 200));
                     echo ($response);
                 } else {
-                    $response = json_encode(array("message" =>  "failed to register", "status" => 404));
+                    $response = json_encode(array("message" =>  "failed to register, User Already Exist", "status" => 404));
                     echo ($response);
                 }
+
+                
             }
         }
     }

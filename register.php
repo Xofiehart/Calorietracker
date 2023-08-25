@@ -79,7 +79,7 @@
                             </div>
                             <hr>
                             <div class="text-center">
-                                <a href="../index.php">Go Home</a>
+                                <a href="./index.php">Go Home</a>
                             </div>
                             <div class="text-center">
 

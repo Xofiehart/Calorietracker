@@ -14,7 +14,6 @@ include 'header.php';
                         <label for="exampleFormControlSelect1">Country</label>
                         <select class="form-control" id="country">
                             <option>Select country</option>
-                            <option>United Kingdom</option>
                             <option>USA</option>
                             <option>Nigeria</option>
                             <option>Custom</option>
