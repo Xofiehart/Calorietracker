@@ -2,7 +2,7 @@ import naija from "../json/naija.json" assert { type: "json" };
 import usa from "../json/foods.json" assert { type: "json" };
 
 var nigeria = [];
-
+// Format NIgerian Food from JSON file to preferred grouped format
 var nigeriaCopy = naija;
 for (let i = 0; i < nigeriaCopy.length; i++) {
   const key = Object.keys(nigeriaCopy[i]);
@@ -11,7 +11,7 @@ for (let i = 0; i < nigeriaCopy.length; i++) {
   cat["cc"] = nigeriaCopy[i][key]["calories"];
   nigeria.push(cat);
 }
-// console.log("nigeriaCopy", nigeria);
+// Refromat food entry to use category as keys 
 var resultNigeria = nigeria.reduce(function (r, a) {
   r[a.category] = r[a.category] || [];
   r[a.category].push(a);
@@ -19,12 +19,14 @@ var resultNigeria = nigeria.reduce(function (r, a) {
 }, Object.create(null));
 // console.log("result", resultNigeria, nigeria);
 
+// an onchanged listener for the country dropdown on the calorie tracker page
 $("#country").on("change", () => {
   var country = $("#country").val();
   //nigeria
   if (country == "Nigeria") {
     $("#Nigeria").show();
     var catOptions = "<option>Select category</option>";
+  //var key is set to an array of strings from the json data these string items represent each item in the json array
     const key = Object.keys(resultNigeria);
     for (let j = 0; j < key.length; j++) {
       catOptions += `<option value=${key[j]}>${key[j].replace(
@@ -71,6 +73,8 @@ $("#country").on("change", () => {
     $("#USA").hide();
   }
 });
+
+// an onchanged listener for the Nigeria dropdown on the calorie tracker page
 $("#nigeriaOptions").on("change", () => {
   let nigeriaOptions = $("#nigeriaOptions").val();
   if (nigeriaOptions != "") {
@@ -79,23 +83,24 @@ $("#nigeriaOptions").on("change", () => {
     let items = "";
     for (let k = 0; k < resultNigeria[nigeriaOptions].length; k++) {
       foodOptions += `<option value=${
-        resultNigeria[nigeriaOptions][k].food
-      }>${resultNigeria[nigeriaOptions][k].food.replace("_", " ")}</option> `;
+                          resultNigeria[nigeriaOptions][k].food
+                        }>${resultNigeria[nigeriaOptions][k].food.replace("_", " ")}</option> `;
 
-      items += `<div class="item col-md-6 id=${
-        resultNigeria[nigeriaOptions][k]["food"]
-      }">
+// Items is set to a string containing HTML data formatted, to be injected into the browser or div of list
+     items += `<div class="item col-md-6 id=${
+                          resultNigeria[nigeriaOptions][k]["food"]
+                        }">
 
-                            <div data-name=${
-                              resultNigeria[nigeriaOptions][k]["food"]
-                            } data-price=${
-        resultNigeria[nigeriaOptions][k]["calories"]
-      } data-id=${
-        resultNigeria[nigeriaOptions][k]["food"]
-      }class="description" class="mt-3 col-md-8">
-      <img src=${
-        resultNigeria[nigeriaOptions][k].img_url
-      } width="60" height="50 alt="Apple" />
+                                              <div data-name=${
+                                                resultNigeria[nigeriaOptions][k]["food"]
+                                              } data-price=${
+                          resultNigeria[nigeriaOptions][k]["calories"]
+                        } data-id=${
+                          resultNigeria[nigeriaOptions][k]["food"]
+                        }class="description mt-3 col-md-8">
+                        <img src=${
+                          resultNigeria[nigeriaOptions][k].img_url
+                        } width="60" height="50 alt="Apple" />
                                <span>${resultNigeria[nigeriaOptions][k]["food"]
                                  .replace("_", " ")
                                  .toUpperCase()}</span>
@@ -154,7 +159,7 @@ $("#nigeriaOptions").on("change", () => {
     $("#NigeriaFood").hide();
   }
 });
-
+// an onchanged listener for the USA dropdown on the calorie tracker page
 $("#usaOptions").on("change", () => {
   let usaOptions = $("#usaOptions").val();
   if (usaOptions != "") {
@@ -200,13 +205,14 @@ $("#usaOptions").on("change", () => {
   }
 });
 
+// an onchanged listener for the custom dropdown on the calorie tracker page
 $("#customOptions").on("change", async () => {
   let opt = $("#customOptions").val();
   if (opt != "") {
     let items = "";
     let form = new FormData();
     form.append("category", opt);
-    let req = await fetch("../../actions/getCustom.php", {
+    let req = await fetch("actions/getCustom.php", {
       method: "POST",
       body: form,
     });
@@ -346,7 +352,7 @@ $("document").ready(() => {
 
                     <li><a href="#contact">Contact</a></li>
                  <li><a href="dash.php">profile</a></li>
-                        <li><a onclick="logout()"  href="/actions/logout.php">Logout</a></li>
+                        <li><a onclick="logout()"  href="actions/logout.php">Logout</a></li>
                   
                         `;
     $(".navhead").html(navdata);
